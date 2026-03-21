@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: RestTime
+
+  datasource:
+    url: ${DB_URL_DEV}
+    username: ${DB_USER_DEV}
+    password: ${DB_PASSWORD_DEV}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  profiles:
+    active: dev
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  port: 8083
+
+resttime:
+  jwt:
+    secret-key: Base64EncodedSecretKeyMustBeAtLeast256BitsLongSoThisIsAValidExample=
+    expiration: 3600000
+
+app:
+  upload:
+    dir: uploads/justificatifs
