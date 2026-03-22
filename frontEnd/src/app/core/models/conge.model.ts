@@ -9,9 +9,9 @@ export interface DemandeConge {
   statut: 'EN_ATTENTE' | 'VALIDEE' | 'REFUSEE' | 'ANNULEE';
   type: 'ANNUEL' | 'MALADIE' | 'EXCEPTIONNEL' | 'FORMATION';
   userId: number;
-  nom: string;    // <--- Changé (était userNom)
-  prenom: string; // <--- Changé (était userPrenom)
-  poste?: string; // Selon Swagger, vérifiez si ces champs arrivent aussi
+  nom: string;
+  prenom: string;
+  poste?: string;
   departement?: string;
 }
 
