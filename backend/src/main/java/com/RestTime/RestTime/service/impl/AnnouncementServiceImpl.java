@@ -10,7 +10,7 @@ import com.RestTime.RestTime.model.entity.User;
 import com.RestTime.RestTime.model.enumeration.TypeNotification;
 import com.RestTime.RestTime.repository.AnnouncementRepository;
 import com.RestTime.RestTime.repository.UserRepository;
-import com.RestTime.RestTime.service.AttendanceService;
+import com.RestTime.RestTime.service.AnnouncementService;
 import com.RestTime.RestTime.service.NotificationService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class AttendanceServiceImpl  implements AttendanceService {
+public class AnnouncementServiceImpl  implements AnnouncementService {
 
     private final AnnouncementRepository announcementRepository;
     private final UserRepository userRepository;
