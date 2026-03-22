@@ -1,0 +1,109 @@
+<div class="max-w-5xl mx-auto space-y-8 pb-12">
+  <div class="flex justify-between items-center px-4 md:px-0">
+    <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Mon Profil</h1>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+    <!-- Left Column: User Info Card -->
+    <div class="lg:col-span-1 space-y-6">
+      <div class="bg-white rounded-3xl shadow-[0_2px_20px_rgb(0,0,0,0.04)] border border-gray-100 overflow-hidden relative">
+        <div class="h-32 bg-gradient-to-br from-blue-700 via-indigo-800 to-indigo-900 relative">
+           <div class="absolute inset-0 bg-white/10 pattern-dots"></div>
+        </div>
+
+        <div class="px-6 pb-6 relative flex flex-col items-center">
+          <div class="w-28 h-28 rounded-full border-4 border-white shadow-xl -mt-14 mb-4 bg-gray-100 overflow-hidden relative group">
+            <img *ngIf="photoPreview" [src]="photoPreview" class="w-full h-full object-cover" alt="Photo de profil">
+            <div *ngIf="!photoPreview" class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 text-blue-600 text-3xl font-black">
+              {{ user?.prenom?.[0] }}{{ user?.nom?.[0] }}
+            </div>
+          </div>
+
+          <h2 class="text-xl font-bold text-gray-900 text-center">{{ user?.prenom }} {{ user?.nom }}</h2>
+          <p class="text-indigo-600 font-semibold text-sm mt-1 mb-4">{{ user?.poste || user?.role }}</p>
+
+          <div class="w-full border-t border-gray-100 mt-2 pt-4">
+             <div class="flex justify-between py-2 items-center">
+                <span class="text-sm font-medium text-gray-400">Département</span>
+                <span class="text-sm font-semibold text-gray-800">{{ user?.departement || 'Non assigné' }}</span>
+             </div>
+             <div class="flex justify-between py-2 items-center text-gray-400">
+                <span class="text-sm font-medium">Solde Congés</span>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold leading-4 bg-blue-100 text-blue-800 border border-blue-200">
+                  {{ user?.soldeConges }} jours
+                </span>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Edit Profile Form -->
+    <div class="lg:col-span-2">
+      <div class="bg-white rounded-3xl shadow-[0_2px_20px_rgb(0,0,0,0.04)] border border-gray-100 p-8 text-gray-800">
+        <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3 border-b border-gray-100 pb-4">
+           <svg class="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+           Informations Personnelles
+        </h3>
+
+        <!-- Alerts -->
+        <div *ngIf="successMessage" class="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-800 flex items-center gap-3">
+           <svg class="w-5 h-5 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+           <p class="text-sm font-medium">{{ successMessage }}</p>
+        </div>
+
+        <div *ngIf="errorMessage" class="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-100 text-rose-800 flex items-center gap-3">
+           <svg class="w-5 h-5 text-rose-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+           <p class="text-sm font-medium">{{ errorMessage }}</p>
+        </div>
+
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Non-editable: Email -->
+            <div class="space-y-1.5 opacity-70 cursor-not-allowed hidden md:block md:col-span-2">
+              <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider">Email Professionnel (Lecture seule)</label>
+              <input type="email" [value]="user?.email" disabled class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-600 font-medium">
+            </div>
+
+            <!-- Telephone -->
+            <div class="space-y-1.5 md:col-span-2 lg:col-span-1">
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider">Téléphone</label>
+              <input type="tel" formControlName="telephone" placeholder="+212 6 12 34 56 78"
+                     class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all text-gray-800 font-medium">
+            </div>
+
+            <!-- Adresse -->
+            <div class="space-y-1.5 md:col-span-2 lg:col-span-1">
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider">Adresse</label>
+              <input type="text" formControlName="adresse" placeholder="123 rue de la Paix, Casablanca, Maroc"
+                     class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all text-gray-800 font-medium">
+            </div>
+          </div>
+
+          <div class="border-t border-gray-100 pt-6">
+            <h4 class="text-sm font-bold text-gray-900 mb-4">Mettre à jour la sécurité ou l'avatar</h4>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Password -->
+               <div class="space-y-1.5 md:col-span-2">
+                 <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider">Nouveau mot de passe</label>
+                 <input type="password" formControlName="motDePasse" placeholder="Laisser vide pour conserver"
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all text-gray-800 font-medium placeholder-gray-400">
+               </div>
+            </div>
+          </div>
+
+          <div class="pt-4 flex justify-end">
+            <button type="submit" [disabled]="profileForm.invalid || isSubmitting"
+                    class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl shadow-lg shadow-indigo-200 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:hover:scale-100 flex items-center gap-2">
+              <svg *ngIf="isSubmitting" class="animate-spin -ml-1 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+              Enregistrer
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
