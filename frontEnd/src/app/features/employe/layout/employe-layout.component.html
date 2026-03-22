@@ -1,0 +1,7 @@
+<div class="min-h-screen bg-gray-100 flex flex-col">
+  <app-navbar [menuItems]="menuItems" [unreadNotifications]="unreadCount"></app-navbar>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+    <router-outlet></router-outlet>
+  </main>
+</div>
