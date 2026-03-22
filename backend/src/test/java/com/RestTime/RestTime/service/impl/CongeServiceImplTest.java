@@ -100,9 +100,9 @@ class CongeServiceImplTest {
 
     @Test
     void soumettreDemande_InsufficientBalance_ThrowsException() {
-        user.setSoldeConges(2.0); // Only 2 days left
+        user.setSoldeConges(2.0);
         createDTO.setDateDebut(LocalDate.now().plusDays(1));
-        createDTO.setDateFin(LocalDate.now().plusDays(5)); // 5 days requested
+        createDTO.setDateFin(LocalDate.now().plusDays(5));
 
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(demandeCongeRepository.existsByUserAndStatut(user, StatutDemande.EN_ATTENTE)).thenReturn(false);
@@ -128,7 +128,7 @@ class CongeServiceImplTest {
         DemandeCongeResponseDTO result = congeService.traiterDemande(1L, validationDTO);
 
         assertNotNull(result);
-        assertEquals(17.0, user.getSoldeConges()); // 20 - 3
+        assertEquals(17.0, user.getSoldeConges());
         verify(userRepository).save(user);
         verify(notificationService).saveAndBroadcastNotification(any());
     }
@@ -146,7 +146,7 @@ class CongeServiceImplTest {
         DemandeCongeResponseDTO result = congeService.traiterDemande(1L, validationDTO);
 
         assertNotNull(result);
-        assertEquals(20.0, user.getSoldeConges()); // No change
+        assertEquals(20.0, user.getSoldeConges());
         verify(notificationService).saveAndBroadcastNotification(any());
     }
 }
