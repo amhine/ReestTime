@@ -65,7 +65,6 @@ public class CongeServiceImpl implements CongeService {
             throw new RuntimeException("Dates invalides");
         }
 
-        // Logic for balances (similar to soumettreDemande)
         switch (dto.getType()) {
             case ANNUEL:
                 if (nombreJours > 15)
@@ -339,7 +338,6 @@ public class CongeServiceImpl implements CongeService {
         long refusees = demandeCongeRepository.countByStatut(StatutDemande.REFUSEE);
         long enAttente = demandeCongeRepository.countByStatut(StatutDemande.EN_ATTENTE);
 
-        // Calculate absences
         long totalEmployees = userRepository.findByRole(com.RestTime.RestTime.model.enumeration.Role.EMPLOYE).size();
         long checkedInToday = attendanceRepository.countByDate(LocalDate.now());
         long totalAbsences = Math.max(0, totalEmployees - checkedInToday);
