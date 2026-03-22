@@ -34,7 +34,6 @@ export class NotificationService {
     }
 
     this.initializedUserId = userId;
-    // Charger les notifications existantes au démarrage
     this.getNotificationsNonLues(userId).subscribe();
 
     this.wsSubscription = this.webSocketService.watchUserNotifications(userId).subscribe(
