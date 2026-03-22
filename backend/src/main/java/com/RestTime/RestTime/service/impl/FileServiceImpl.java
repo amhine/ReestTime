@@ -47,7 +47,7 @@ public class FileServiceImpl implements FileService {
             Path filePath = Paths.get(uploadDir, fileName);
             Files.deleteIfExists(filePath);
         } catch (IOException e) {
-            // Log error or handle it
+            // Log error
         }
     }
 }
