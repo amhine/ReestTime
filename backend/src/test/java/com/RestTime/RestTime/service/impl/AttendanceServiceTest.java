@@ -47,13 +47,9 @@ public class AttendanceServiceTest {
         when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
         when(attendanceRepository.findByUserAndDate(any(User.class), any(LocalDate.class))).thenReturn(Optional.empty());
         
-        // Mock save to return the identical entity
         when(attendanceRepository.save(any(Attendance.class))).thenAnswer(invocation -> {
             Attendance a = invocation.getArgument(0);
             a.setId(10L);
-            // Simulate that before 9:00 AM, it is not late
-            // Hard to mock LocalTime.now(), but we can check if it sets correctly inside the service
-            // Just verifying that save returns it correctly.
             return a;
         });
 
@@ -73,7 +69,7 @@ public class AttendanceServiceTest {
         attendance.setUser(testUser);
         attendance.setId(10L);
         attendance.setDate(LocalDate.now());
-        attendance.setHeureEntree(LocalTime.now().minusHours(8)); // Clocked in 8 hours ago
+        attendance.setHeureEntree(LocalTime.now().minusHours(8));
         
         when(attendanceRepository.findByUserAndDate(any(User.class), any(LocalDate.class)))
             .thenReturn(Optional.of(attendance));
@@ -83,7 +79,7 @@ public class AttendanceServiceTest {
         AttendanceDTO dto = attendanceService.clockOut(1L);
 
         assertNotNull(dto.getHeureSortie());
-        assertTrue(dto.getHeuresTravaillees() >= 7.9); // Should be around 8 hours
+        assertTrue(dto.getHeuresTravaillees() >= 7.9);
     }
 
     @Test
