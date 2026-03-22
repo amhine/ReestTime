@@ -18,21 +18,25 @@ public class DataSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) {
         String rhEmail = "rh@rh.com";
+        String password = "rh@rh.com";
 
         if (!userRepository.existsByEmail(rhEmail)) {
             User rh = User.builder()
                     .nom("RH")
                     .prenom("RestTime")
                     .email(rhEmail)
-                    .motDePasse(passwordEncoder.encode("rh@rh.com"))
+                    .motDePasse(passwordEncoder.encode(password))
                     .role(Role.RH)
-                    .soldeConges(0.0)
+                    .soldeConges(25.0)
                     .build();
 
             userRepository.save(rh);
-            System.out.println("RH créé avec succès ! Email: " + rhEmail + " / Password: rh@rh.com");
+            System.out.println("RH créé avec succès ! Email: " + rhEmail + " / Password: " + password);
         } else {
-            System.out.println("Le RH existe déjà.");
+            User rh = userRepository.findByEmail(rhEmail).orElseThrow();
+            rh.setMotDePasse(passwordEncoder.encode(password));
+            userRepository.save(rh);
+            System.out.println("Le RH existe déjà, mot de passe mis à jour !");
         }
     }
 }
