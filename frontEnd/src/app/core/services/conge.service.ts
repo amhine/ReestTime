@@ -13,7 +13,6 @@ export class CongeService {
 
   constructor(private http: HttpClient) {}
 
-  // Employé endpoints
   getMesDemandes(userId: number): Observable<DemandeConge[]> {
     return this.http.get<DemandeConge[]>(`${this.apiUrl}/employes/${userId}/mesdemandes`);
   }
@@ -46,7 +45,6 @@ export class CongeService {
     return this.http.get<SoldeConge>(`${this.apiUrl}/employes/${userId}/solde`);
   }
 
-  // RH endpoints
   getStatistiquesRh(): Observable<StatistiquesRh> {
     return this.http.get<StatistiquesRh>(`${this.apiUrl}/rh/conges/statistiques`);
   }
