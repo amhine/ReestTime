@@ -21,12 +21,10 @@ public class FileController {
     @GetMapping("/{subDir}/{fileName}")
     public ResponseEntity<Resource> getFile(@PathVariable String subDir, @PathVariable String fileName) {
         try {
-            // On récupère le chemin complet : uploads/justificatifs/nom_du_fichier.jpg
             Path filePath = Paths.get(uploadDir).resolve(subDir).resolve(fileName);
             Resource resource = new UrlResource(filePath.toUri());
 
             if (resource.exists() || resource.isReadable()) {
-                // On détermine le type de contenu (image, pdf, etc.)
                 String contentType = "application/octet-stream";
                 if (fileName.toLowerCase().endsWith(".jpg") || fileName.toLowerCase().endsWith(".jpeg")) {
                     contentType = "image/jpeg";
