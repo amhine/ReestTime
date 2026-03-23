@@ -1,0 +1,66 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    container_name: restime_db
+    restart: unless-stopped
+    ports:
+      - "5436:5432"
+    environment:
+      POSTGRES_DB: restime
+      POSTGRES_USER: restuser
+      POSTGRES_PASSWORD: nihad
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - rest-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U restuser -d restime"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: restime_backend
+    restart: unless-stopped
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/restime
+      SPRING_DATASOURCE_USERNAME: restuser
+      SPRING_DATASOURCE_PASSWORD: nihad
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+      MAIL_USERNAME: nihadamhine8@gmail.com
+      MAIL_PASSWORD: kqkmbrlofzfnwmzn
+
+      SPRING_PROFILES_ACTIVE: dev
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - rest-network
+
+  frontend:
+    build:
+      context: ./frontEnd
+      dockerfile: Dockerfile
+    container_name: restime_frontend
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - rest-network
+
+volumes:
+  db_data:
+
+networks:
+  rest-network:
+    driver: bridge
