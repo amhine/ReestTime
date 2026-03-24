@@ -30,8 +30,6 @@ public class User {
 
     private String telephone;
     private String adresse;
-    private String photoProfile;
-    private String poste;
     private String departement;
 
 

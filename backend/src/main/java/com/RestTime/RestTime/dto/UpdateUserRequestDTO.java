@@ -17,6 +17,5 @@ public class UpdateUserRequestDTO {
     private String telephone;
     private String adresse;
     private String motDePasse;
-    private String poste;
     private String departement;
 }

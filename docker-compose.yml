@@ -7,16 +7,14 @@ services:
     restart: unless-stopped
     ports:
       - "5436:5432"
-    environment:
-      POSTGRES_DB: restime
-      POSTGRES_USER: restuser
-      POSTGRES_PASSWORD: nihad
+    env_file:
+      - .env
     volumes:
       - db_data:/var/lib/postgresql/data
     networks:
       - rest-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U restuser -d restime"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -29,16 +27,18 @@ services:
     restart: unless-stopped
     ports:
       - "8083:8083"
+    env_file:
+      - .env
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/restime
-      SPRING_DATASOURCE_USERNAME: restuser
-      SPRING_DATASOURCE_PASSWORD: nihad
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
 
-      MAIL_USERNAME: nihadamhine8@gmail.com
-      MAIL_PASSWORD: kqkmbrlofzfnwmzn
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
 
-      SPRING_PROFILES_ACTIVE: dev
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
     depends_on:
       db:
         condition: service_healthy

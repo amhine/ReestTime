@@ -19,7 +19,5 @@ public class UserResponseDTO {
     private Role role;
     private String telephone;
     private String adresse;
-    private String photoProfile;
-    private String poste;
     private String departement;
 }

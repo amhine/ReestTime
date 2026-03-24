@@ -17,6 +17,7 @@ import java.util.List;
 public class EmployeController {
 
     private final EmployeService employeService;
+    private final CongeService congeService;
 
 
     @GetMapping("/{userId}/solde")
@@ -36,7 +37,6 @@ public class EmployeController {
 
 
 
-    private final CongeService congeService;
 
     @PostMapping(value = "/conges/{userId}", consumes = "multipart/form-data")
     public ResponseEntity<DemandeCongeResponseDTO> soumettreDemande(

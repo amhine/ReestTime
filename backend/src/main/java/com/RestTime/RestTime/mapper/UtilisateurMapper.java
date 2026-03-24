@@ -19,7 +19,5 @@ public interface UtilisateurMapper {
     @Mapping(target = "notifications", ignore = true)
     @Mapping(target = "telephone", ignore = true)
     @Mapping(target = "adresse", ignore = true)
-    @Mapping(target = "photoProfile", ignore = true)
-    @Mapping(target = "poste", ignore = true)
     User toEntity(CreateUserRequestDTO request);
 }
