@@ -40,7 +40,6 @@ export class EmployeFormComponent implements OnInit {
       this.isEditMode = true;
       this.employeId = +id;
       this.loadEmploye();
-      // Remove password validation for edit mode
       this.form.get('motDePasse')?.clearValidators();
       this.form.get('motDePasse')?.updateValueAndValidity();
     }
