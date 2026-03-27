@@ -114,9 +114,8 @@ docker compose up --build
 
 
 <div style="text-align: center;">
-  <img src="https://github.com/user-attachments/assets/fd351927-acc2-48d6-bdff-f63d6e722d8f" 
-       alt="Diagramme de Classe"
-       width="800">
+  
+<img width="1078" height="777" alt="image" src="https://github.com/user-attachments/assets/1b32a5cf-a399-4daf-b828-96e06508c7a1" />
 </div>
 
 <img width="745" height="1141" alt="Diagramme " src="https://github.com/user-attachments/assets/5fbf5a10-0a6c-4eee-9081-0a69ae457d76" />
