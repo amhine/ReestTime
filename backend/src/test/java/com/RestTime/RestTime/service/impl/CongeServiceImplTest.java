@@ -45,6 +45,7 @@ class CongeServiceImplTest {
     private CongeServiceImpl congeService;
 
     private User user;
+    private User rhUser;
     private DemandeConge demande;
     private DemandeCongeCreateDTO createDTO;
 
@@ -55,6 +56,11 @@ class CongeServiceImplTest {
         user.setSoldeConges(20.0);
         user.setPrenom("John");
         user.setNom("Doe");
+
+        rhUser = new User();
+        rhUser.setId(2L);
+        rhUser.setRole(com.RestTime.RestTime.model.enumeration.Role.RH);
+        rhUser.setEmail("rh@test.com");
 
         createDTO = new DemandeCongeCreateDTO();
         createDTO.setDateDebut(LocalDate.now().plusDays(1));
@@ -72,6 +78,7 @@ class CongeServiceImplTest {
     @Test
     void soumettreDemande_Success() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(userRepository.findByRole(com.RestTime.RestTime.model.enumeration.Role.RH)).thenReturn(java.util.List.of(rhUser));
         when(demandeCongeRepository.existsByUserAndStatut(user, StatutDemande.EN_ATTENTE)).thenReturn(false);
         when(demandeCongeRepository.existsByUserAndDateDebutLessThanEqualAndDateFinGreaterThanEqual(any(), any(), any())).thenReturn(false);
         when(demandeCongeMapper.toEntity(createDTO)).thenReturn(new DemandeConge());
@@ -79,7 +86,6 @@ class CongeServiceImplTest {
         when(demandeCongeMapper.toResponseDTO(any())).thenReturn(new DemandeCongeResponseDTO());
 
         DemandeCongeResponseDTO result = congeService.soumettreDemande(1L, createDTO, null);
-
         assertNotNull(result);
         verify(demandeCongeRepository).save(any());
         verify(notificationService, atLeastOnce()).saveAndBroadcastNotification(any());

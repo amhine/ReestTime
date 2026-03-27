@@ -15,4 +15,5 @@ public class AnnouncementDTO {
     private String titre;
     private String contenu;
     private LocalDateTime dateCreation;
+    private UserResponseDTO author;
 }

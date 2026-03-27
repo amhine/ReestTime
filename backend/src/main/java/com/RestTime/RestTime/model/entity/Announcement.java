@@ -22,4 +22,8 @@ public class Announcement {
     private String contenu;
 
     private LocalDateTime dateCreation;
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

@@ -32,8 +32,7 @@ public class AttendanceServiceTest {
     private UserRepository userRepository;
 
     @InjectMocks
-    private AttendanceService attendanceService;
-
+    private AttendanceServiceImpl attendanceService;
     private User testUser;
 
     @BeforeEach

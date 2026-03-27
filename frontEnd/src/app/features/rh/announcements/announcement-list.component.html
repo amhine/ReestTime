@@ -22,7 +22,13 @@
               </button>
             </div>
             <h4 class="text-xl font-bold text-gray-900">{{ annonce.titre }}</h4>
-            <p class="text-gray-400 text-xs mb-2">Le {{ annonce.dateCreation | date:'medium' }}</p>
+            <div class="flex items-center gap-2 mb-2">
+              <p class="text-gray-400 text-xs">Le {{ annonce.dateCreation | date:'medium' }}</p>
+              @if (annonce.author) {
+                <span class="text-gray-300">•</span>
+                <p class="text-indigo-600 text-xs font-medium">Par {{ annonce.author.prenom }} {{ annonce.author.nom }} </p>
+              }
+            </div>
             <p class="text-gray-600">{{ annonce.contenu }}</p>
           </div>
         }

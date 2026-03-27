@@ -10,7 +10,6 @@ import java.util.List;
 
 public interface DemandeCongeRepository extends JpaRepository<DemandeConge, Long> {
     List<DemandeConge> findByUserOrderByIdDesc(User user);
-    List<DemandeConge> findByStatutOrderByDateSoumissionDesc(StatutDemande statut);
     List<DemandeConge> findByStatutOrderByIdDesc(StatutDemande statut);
     long countByStatut(StatutDemande statut);
     boolean existsByUserAndStatut(User user, StatutDemande statut);

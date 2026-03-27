@@ -40,6 +40,12 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Notification> notifications;
 
+    @OneToMany(mappedBy = "user")
+    private List<Attendance> attendance;
+
+    @OneToMany(mappedBy = "user")
+    private List<Announcement> announcements;
+
     @Column(name = "reset_token")
     private String resetToken;
 

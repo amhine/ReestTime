@@ -75,17 +75,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         return utilisateurMapper.toResponseDTO(updatedUser);
     }
 
-    @Override
-    @Transactional
-    public UserResponseDTO updateUserRole(Long id, UpdateRoleRequestDTO request) {
-        User user = utilisateurRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé"));
 
-        user.setRole(request.getRole());
-
-        User updatedUser = utilisateurRepository.save(user);
-        return utilisateurMapper.toResponseDTO(updatedUser);
-    }
 
     @Override
     @Transactional

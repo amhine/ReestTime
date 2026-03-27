@@ -14,6 +14,7 @@ import com.RestTime.RestTime.service.AnnouncementService;
 import com.RestTime.RestTime.service.NotificationService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -33,10 +34,15 @@ public class AnnouncementServiceImpl  implements AnnouncementService {
     @Override
     @Transactional
     public AnnouncementDTO createAnnouncement(AnnouncementCreateDTO dto) {
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User author = userRepository.findByEmail(currentUserEmail)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
         Announcement announcement = Announcement.builder()
                 .titre(dto.getTitre())
                 .contenu(dto.getContenu())
                 .dateCreation(LocalDateTime.now())
+                .user(author)
                 .build();
         Announcement savedAnnouncement = announcementRepository.save(announcement);
 

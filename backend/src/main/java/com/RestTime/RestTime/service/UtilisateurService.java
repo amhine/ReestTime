@@ -9,7 +9,6 @@ public interface UtilisateurService {
     UserResponseDTO getUserById(Long id);
     UserResponseDTO createUser(CreateUserRequestDTO request);
     UserResponseDTO updateUser(Long id, UpdateUserRequestDTO request);
-    UserResponseDTO updateUserRole(Long id, UpdateRoleRequestDTO request);
     void deleteUser(Long id);
 
     UserResponseDTO getCurrentUser(String email);
